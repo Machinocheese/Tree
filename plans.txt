@@ -1,0 +1,6 @@
+Day 1:
+Drafted a basic Object structure for a Tree, looked at a couple of Javascript supersets.
+
+Day 2:
+Write your own basic animations - main ones include vertical down.
+These are just prototypes for more complex animations like a leaf drifting down.
