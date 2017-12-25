@@ -1,42 +1,100 @@
-function greeter(person) {
-    return "Hello, " + person;
-}
 
-let user = "Jane User";
 
-document.body.innerHTML = greeter(user);
+var canvas: HTMLCanvasElement;
+var ctx: CanvasRenderingContext2D;
 
-interface Tree{
-    state: boolean; //determines if alive or dead
-    species: string;
-    health: number;
-    leaves: Leaf[];
-    branches: Branch[];
-    trunk: Trunk;
-    roots: Root[];
-}
-
-interface Leaf{
-    state: string[]; //determines if dying, living, lacking pigment, etc.
+export interface iShape{
+    draw(): void;
+    x: number;
+    y: number;
     color: string;
-    size: number;
+    lineWidth: number;
 }
 
-interface Branch{
-    state: string[];
+export class Tree{
+    public alive: boolean;
+    public species: string;
+    public health: number;
+    public stage: string[] = ["Germination","Seedling","Sapling","Mature","Ancient","Decaying"];
+    private leaves: Array<Leaf> = new Array<Leaf>();
+    private branches: Array<Branch> = new Array<Branch>();
+    private roots: Array<Root> = new Array<Root>();
+    private trunk: Trunk;
+
+    constructor(species: string, canvasTemp: HTMLCanvasElement, ctxTemp: CanvasRenderingContext2D, alive: boolean = true){
+        this.species = species;
+        this.alive = alive;
+        canvas = canvasTemp;
+        ctx = ctxTemp;
+        
+        this.trunk = new Trunk(100,100,100,100);
+    }
+
+    public draw = (): void => {
+        //draw trunk
+        this.trunk.draw();
+        //draw leaves
+
+        //draw branches
+
+        //draw roots
+     }
+}
+
+export class Leaf implements iShape{
+    public x: number;
+    public y: number;
+    public color: string;
+    public lineWidth: number;
+    public state: string[] = ["Alive","Shriveled","Dead"];
+    public size: number;
+    public draw = (): void => {
+
+    }
+}
+
+export class Branch implements iShape{
+    x: number;
+    y: number;
     color: string;
-    length: number;
-    branches: Branch[];
+    lineWidth: number;
+    public draw = (): void => {
+    
+    }
 }
 
-interface Trunk{
+export class Root implements iShape{
+    x: number;
+    y: number;
     color: string;
-    length: number;
-    width: number;
+    lineWidth: number;
+    public draw = (): void => {
+    
+    }
 }
 
-interface Root{
-    lifegain: number;
-    length: number;
-    roots: Root[];
+export class Trunk implements iShape{
+    public x: number;
+    public y: number;
+    public width: number;
+    public height: number;
+    public color: string;
+    public lineWidth: number;
+    constructor(x: number, y: number, width: number, height: number, color: string = "brown", lineWidth: number = 2){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.lineWidth = lineWidth;
+    }
+    public draw = (): void => {
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.lineWidth;
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
+        ctx.restore();
+    }
 }
