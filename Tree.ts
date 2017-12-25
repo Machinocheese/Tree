@@ -1,10 +1,21 @@
+/*public draw = (): void => {
+    //draw trunk
+    //this.trunk.draw();
+    //draw leaves
 
+    //draw branches
 
-var canvas: HTMLCanvasElement;
-var ctx: CanvasRenderingContext2D;
+    //draw roots
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = "brown";
+    ctx.lineWidth = 2;
+    ctx.rect(100,100,100,100);
+    ctx.stroke();
+    ctx.restore();
+}*/
 
-export interface iShape{
-    draw(): void;
+interface iShape{
     x: number;
     y: number;
     color: string;
@@ -21,59 +32,37 @@ export class Tree{
     private roots: Array<Root> = new Array<Root>();
     private trunk: Trunk;
 
-    constructor(species: string, canvasTemp: HTMLCanvasElement, ctxTemp: CanvasRenderingContext2D, alive: boolean = true){
+    constructor(species: string, alive: boolean = true){
         this.species = species;
-        this.alive = alive;
-        canvas = canvasTemp;
-        ctx = ctxTemp;
-        
+        this.alive = alive;        
         this.trunk = new Trunk(100,100,100,100);
     }
-
-    public draw = (): void => {
-        //draw trunk
-        this.trunk.draw();
-        //draw leaves
-
-        //draw branches
-
-        //draw roots
-     }
 }
 
-export class Leaf implements iShape{
+class Leaf implements iShape{
     public x: number;
     public y: number;
     public color: string;
     public lineWidth: number;
     public state: string[] = ["Alive","Shriveled","Dead"];
     public size: number;
-    public draw = (): void => {
-
-    }
 }
 
-export class Branch implements iShape{
+class Branch implements iShape{
     x: number;
     y: number;
     color: string;
     lineWidth: number;
-    public draw = (): void => {
-    
-    }
 }
 
-export class Root implements iShape{
+class Root implements iShape{
     x: number;
     y: number;
     color: string;
     lineWidth: number;
-    public draw = (): void => {
-    
-    }
 }
 
-export class Trunk implements iShape{
+class Trunk implements iShape{
     public x: number;
     public y: number;
     public width: number;
@@ -87,14 +76,5 @@ export class Trunk implements iShape{
         this.height = height;
         this.color = color;
         this.lineWidth = lineWidth;
-    }
-    public draw = (): void => {
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.lineWidth;
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
-        ctx.restore();
     }
 }

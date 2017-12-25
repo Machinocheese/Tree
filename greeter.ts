@@ -36,6 +36,24 @@ interface iShape {
     }
  }
 
+ var circle1: cCircle = new cCircle(200, 300, 50);
+ var circle2: cCircle = new cCircle(400, 550, 150, "blue", 5);
+
+ function gameLoop(){
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, document.body.clientWidth, document.body.clientHeight);
+
+    if (circle1.x++ >= 1280 + circle1.radius) {
+        circle1.x = -circle1.radius;
+    }
+
+    if (circle2.y++ >= 720 + circle2.radius) {
+        circle2.y = -circle2.radius;
+    }
+    circle1.draw();
+    circle2.draw();
+    requestAnimationFrame(gameLoop);
+ }
 export class onLoad{
 
     constructor(){
@@ -48,33 +66,11 @@ export class onLoad{
         console.log("HI");
     }
     
-    circle1: cCircle = new cCircle(200, 300, 50);
-    circle2: cCircle = new cCircle(400, 550, 150, "blue", 5);
     
-    gameLoop() {
-       requestAnimationFrame(this.gameLoop);
-       ctx.fillStyle = "black";
-       ctx.fillRect(0, 0, document.body.clientWidth, document.body.clientHeight);
-
-       if (this.circle1.x++ >= 1280 + this.circle1.radius) {
-        this.circle1.x = -this.circle1.radius;
-        }
-  
-     if (this.circle2.y++ >= 720 + this.circle2.radius) {
-        this.circle2.y = -this.circle2.radius;
-     }
-       this.circle1.draw();
-       this.circle2.draw();
-    }
     
-    drawRect(){
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = "blue";
-        ctx.lineWidth = 2;
-        ctx.rect(100, 100, 100, 100);
-        ctx.stroke();
-        ctx.restore();
+    gameLoop(): void {
+        requestAnimationFrame(gameLoop);
+        
     }
 }
 
