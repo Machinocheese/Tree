@@ -8,3 +8,10 @@ These are just prototypes for more complex animations like a leaf drifting down.
 Very useful reference: 
 http://www.typescriptgames.com/HTMLCanvasAsteroids.html
 Example code is in app.ts.
+
+I managed to get canvas to be max screen size, but I ended up struggling most of the day with the Typescript inheritance syntax.
+The end result is that I got something semi-working (I think), but I still have work to do in terms of animation.
+The requestAnimationFrame() method is going wrong...
+
+Day 3:
+Get animation working, and see if you can read in information properly from the Tree object/class.
