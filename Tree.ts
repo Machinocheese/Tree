@@ -26,7 +26,9 @@ export class Tree{
     public alive: boolean;
     public species: string;
     public health: number;
-    public stage: string[] = ["Germination","Seedling","Sapling","Mature","Ancient","Decaying"];
+    public stages: string[] = ["Germination","Seedling","Sapling","Mature","Ancient","Decaying"];
+
+    private stage: number;
     private leaves: Array<Leaf> = new Array<Leaf>();
     private branches: Array<Branch> = new Array<Branch>();
     private roots: Array<Root> = new Array<Root>();
@@ -35,7 +37,6 @@ export class Tree{
     constructor(species: string, alive: boolean = true){
         this.species = species;
         this.alive = alive;        
-        this.trunk = new Trunk(100,100,100,100);
     }
 }
 
@@ -78,3 +79,11 @@ class Trunk implements iShape{
         this.lineWidth = lineWidth;
     }
 }
+
+/**
+ * Notes: Each root's width will be a fraction of its parent root - the main roots parent root is the trunk.
+ * Each root will contain segments of rectangles. Each rectangle can have a slant of up to 45 degrees either way.
+ * Rectangles get progressively smaller, and each root ends with a "triangle" shape.
+ * Each root has a "lifespan" - aka the number of times it can generate roots that grow more roots.
+ * generateRoot(){}
+ */

@@ -15,3 +15,6 @@ The requestAnimationFrame() method is going wrong...
 
 Day 3:
 Get animation working, and see if you can read in information properly from the Tree object/class.
+
+Animation didn't update, however, I did manage to set up the inheritance as well as obtain solid art direction in terms
+of how I want my tree to ultimately look.
