@@ -18,3 +18,9 @@ Get animation working, and see if you can read in information properly from the 
 
 Animation didn't update, however, I did manage to set up the inheritance as well as obtain solid art direction in terms
 of how I want my tree to ultimately look.
+
+Day 4:
+I managed to get the line tracer function as well as a method to move a circle from one place to another, leaving behind a line.
+
+Day 5:
+Plans: Get generateRoot() properly working, and see if you can start generating a base of roots.
