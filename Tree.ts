@@ -19,7 +19,6 @@ interface iShape{
     x: number;
     y: number;
     color: string;
-    lineWidth: number;
 }
 
 export class Tree{
@@ -44,7 +43,6 @@ class Leaf implements iShape{
     public x: number;
     public y: number;
     public color: string;
-    public lineWidth: number;
     public state: string[] = ["Alive","Shriveled","Dead"];
     public size: number;
 }
@@ -53,31 +51,6 @@ class Branch implements iShape{
     x: number;
     y: number;
     color: string;
-    lineWidth: number;
-}
-
-class Root implements iShape{
-    x: number;
-    y: number;
-    color: string;
-    lineWidth: number;
-}
-
-class Trunk implements iShape{
-    public x: number;
-    public y: number;
-    public width: number;
-    public height: number;
-    public color: string;
-    public lineWidth: number;
-    constructor(x: number, y: number, width: number, height: number, color: string = "brown", lineWidth: number = 2){
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.color = color;
-        this.lineWidth = lineWidth;
-    }
 }
 
 /**
@@ -86,4 +59,31 @@ class Trunk implements iShape{
  * Rectangles get progressively smaller, and each root ends with a "triangle" shape.
  * Each root has a "lifespan" - aka the number of times it can generate roots that grow more roots.
  * generateRoot(){}
+ * 
+ * 
  */
+
+class Root implements iShape{
+    x: number;
+    y: number;
+    destX: number;
+    destY: number;
+    lifespan: number;
+    color: string;
+    roots: Root[];
+}
+
+class Trunk implements iShape{
+    public x: number;
+    public y: number;
+    public width: number;
+    public height: number;
+    public color: string;
+    constructor(x: number, y: number, width: number, height: number, color: string = "brown", lineWidth: number = 2){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+    }
+}
