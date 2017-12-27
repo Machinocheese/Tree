@@ -1,19 +1,4 @@
-/*public draw = (): void => {
-    //draw trunk
-    //this.trunk.draw();
-    //draw leaves
-
-    //draw branches
-
-    //draw roots
-    ctx.save();
-    ctx.beginPath();
-    ctx.strokeStyle = "brown";
-    ctx.lineWidth = 2;
-    ctx.rect(100,100,100,100);
-    ctx.stroke();
-    ctx.restore();
-}*/
+import shapes = require("Shapes");
 
 interface iShape{
     x: number;
@@ -35,7 +20,14 @@ export class Tree{
 
     constructor(species: string, alive: boolean = true){
         this.species = species;
-        this.alive = alive;        
+        this.alive = alive;
+        this.roots.push(new Root(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 25, 0, 0, 100));
+        this.roots.push(new Root(document.body.clientWidth / 2 + 10, document.body.clientHeight * 3 / 4 + 32, 0, 0, 100));        
+    }
+    draw(){
+        for(var i = 0; i < this.roots.length; i++){
+            this.roots[i].draw();
+        }
     }
 }
 
@@ -66,11 +58,25 @@ class Branch implements iShape{
 class Root implements iShape{
     x: number;
     y: number;
-    destX: number;
-    destY: number;
+    offsetX: number;
+    offsetY: number;
     lifespan: number;
     color: string;
     roots: Root[];
+    circle: any;
+    constructor(x: number, y: number, offsetX: number, offsetY: number, lifespan: number, color: string = 'rgb(205,133,63)'){
+        this.x = x;
+        this.y = y;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        this.lifespan = lifespan;
+        this.color = color;
+        this.circle = new shapes.Circle(this.x,this.y,this.color);
+    }
+    draw(){
+        this.circle.draw();
+        this.circle.move(this.x + this.offsetX, this.y + this.offsetY);
+    }
 }
 
 class Trunk implements iShape{
