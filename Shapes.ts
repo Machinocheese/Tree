@@ -25,24 +25,31 @@ export class Circle{
         ctx.stroke();
         ctx.restore();
     }
-    move(x: number, y: number){
-        if(this.x === x && this.y === y){
+    move(x: number, y: number): number{
+        console.log("CURRENT: " + this.x + " " + this.y + "\nLOCKED: " + x + " " + y);
+        if(this.x >= this.originalX && this.x >= x && this.y >= y){
             this.drawLine(); 
-            return;
-        } 
+            return 1;
+        } else if(this.x < this.originalX && this.x <= x && this.y >= y){
+            this.drawLine(); 
+            return 1;
+        }//calculate offset as < 0 , not .x lol
         var offsetX = (x - this.originalX) * speed;
         var offsetY = (y - this.originalY) * speed;
         this.x = this.x + offsetX;
         this.y = this.y + offsetY;
         this.drawLine();
+        return 0;
     }
     /**
      * @description draws a line from the "original" circle position to the border of the new circle position.
      */
     drawLine(){
         ctx.beginPath();
-        ctx.moveTo(this.originalX,this.originalY);
-        ctx.lineTo(this.x - this.findOffset() * (this.x - this.originalX),this.y - this.findOffset() * (this.y - this.originalY));
+        var offsetX = this.findOffset() * (this.x - this.originalX);
+        var offsetY = this.findOffset() * (this.y - this.originalY);
+        ctx.moveTo(this.originalX + offsetX,this.originalY + offsetY);
+        ctx.lineTo(this.x - offsetX,this.y - offsetY);
         ctx.stroke();
     }
     /**

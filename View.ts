@@ -9,12 +9,16 @@ var bctx: CanvasRenderingContext2D;
 var sctx: CanvasRenderingContext2D;
 var tree: Tree;
 
+//var circle: Circle = new Circle(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 25, 'rgb(205,133,63)');
+//var circle2: Circle = new Circle(document.body.clientWidth / 2 + 10, document.body.clientHeight * 3 / 4 + 32, 'rgb(205,133,63)');
 /**
  * As edges "grow" as time passes, new nodes appear when the edge reaches a certain length. Find that length. 
  */
 function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     tree.draw();
+    //circle.update(speed, 0);
+    //circle2.update(speed, speed);
     requestAnimationFrame(gameLoop);
     //drawCircle(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 40, 'rgb(205,133,63)', 15);
     //drawCircle(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 25, 'rgb(205,133,63)');

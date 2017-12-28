@@ -24,3 +24,9 @@ I managed to get the line tracer function as well as a method to move a circle f
 
 Day 5:
 Plans: Get generateRoot() properly working, and see if you can start generating a base of roots.
+I did manage to get generateRoot() properly working, but as I worked on the problem, I realized that there are new problems
+with regards to root - as in if they should overlap or should they be parallel (more of a design choice really).
+
+Day 6:
+Plans: Optimally get a solid direction and code base in the direction you want to take root generation in. I expect this
+to maybe take a few days to get correct (maybe I can use a hashMap for checking or something).
