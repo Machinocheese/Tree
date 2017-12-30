@@ -22,7 +22,11 @@ export class Tree{
         this.species = species;
         this.alive = alive;
         this.roots.push(new Root(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 25, 50, 50, 2));
-        //this.roots.push(new Root(document.body.clientWidth / 2 + 10, document.body.clientHeight * 3 / 4 + 32, 0, 0, 0));        
+        //this.roots.push(new Root(document.body.clientWidth / 2 + 10, document.body.clientHeight * 3 / 4 + 32, 0, 0, 0));
+        
+        var line1 = new shapes.Line(1,1,5,3);
+        var line2 = new shapes.Line(3,4,6,2);
+        console.log(line1.intersect(line2));
     }
     draw(){
         for(var i = 0; i < this.roots.length; i++){

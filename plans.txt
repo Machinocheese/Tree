@@ -30,3 +30,8 @@ with regards to root - as in if they should overlap or should they be parallel (
 Day 6:
 Plans: Optimally get a solid direction and code base in the direction you want to take root generation in. I expect this
 to maybe take a few days to get correct (maybe I can use a hashMap for checking or something).
+
+Day 7:
+Managed to finally implement the method to check for line segment intersection. The concept wasn't hard, but for some reason,
+it just didn't click for me.
+Plans: Set up a hashMap function for map nodes, make sure randomly generated edges don't overlap w/ new methods.
