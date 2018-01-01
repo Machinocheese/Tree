@@ -24,9 +24,9 @@ export class Tree{
         this.roots.push(new Root(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 25, 50, 50, 2));
         //this.roots.push(new Root(document.body.clientWidth / 2 + 10, document.body.clientHeight * 3 / 4 + 32, 0, 0, 0));
         
-        var line1 = new shapes.Line(1,1,5,3);
-        var line2 = new shapes.Line(3,4,6,2);
-        console.log(line1.intersect(line2));
+        var line1 = new shapes.Line(0,0,1,1);
+        var line2 = new shapes.Line(0,0,2,0);
+        console.log("INTERSECTION :" + line1.intersect(line2));
     }
     draw(){
         for(var i = 0; i < this.roots.length; i++){
@@ -61,7 +61,8 @@ class Branch implements iShape{
  * Step 2: Randomly choose an endpoint for each subroot - check if not intersecting any "Nodes" or "Edges"
  * Step 3: If so, rechoose point - (this only works 3 times - if they all fail, then stop choosing)
  */
-
+var lines: Array<shapes.Line> = new Array<shapes.Line>();
+var randomTries = 3;
 class Root implements iShape{
     x: number;
     y: number;
@@ -70,6 +71,7 @@ class Root implements iShape{
     lifespan: number;
     color: string;
     roots: Array<Root> = new Array<Root>();
+    confirmed: boolean;
     circle: any;
     constructor(x: number, y: number, offsetX: number, offsetY: number, lifespan: number, color: string = 'rgb(205,133,63)'){
         this.x = x;
@@ -79,27 +81,55 @@ class Root implements iShape{
         this.lifespan = lifespan;
         this.color = color;
         this.circle = new shapes.Circle(this.x,this.y,this.color);
+        lines.push(new shapes.Line(this.x,this.y,this.x + this.offsetX, this.y + this.offsetY));
+        this.confirmed = true;
     }
     draw(){
         for(var i = 0; i < this.roots.length; i++){
             this.roots[i].draw();
         }
         this.circle.draw();
-        if(1 === this.circle.move(this.x + this.offsetX, this.y + this.offsetY) && this.roots.length === 0){
+        //i check this.roots.length == 0 b/c draw() is repetitively called. I only want to generateRoot() once!
+        if(1 === this.circle.move(this.x + this.offsetX, this.y + this.offsetY) && this.confirmed){
             this.generateRoot();
+            this.confirmed = false;
         }
+        //there are issues w/ parallelizing... do i sequence them or do i fix the break bug
+        //possible fix: make lines a non-global object so parallelizing isn't a problem
     }
     generateRoot(){
-        var numRoots = this.lifespan;
-        for(var i = 0; i < numRoots; i++){
+        //# roots generated = this.lifespan
+        //it needs to generate roots according to # lifespan
+        for(var i = 0; i < this.lifespan; i++){
+            
             var newX = Math.floor(Math.random() * 100) - 50;
             var newY = Math.floor(Math.random() * 45) + 10;
             this.filter(newX, newY);
+            /*if(this.filter(newX, newY) == false){
+                newX = Math.floor(Math.random() * 100) - 50;
+                newY = Math.floor(Math.random() * 45) + 10;
+            }*/
             this.roots.push(new Root(this.x + this.offsetX, this.y + this.offsetY, newX, newY, this.lifespan - 1));
+            //console.log(lines);
         }
     }
-    filter(x: number, y: number){
-        //TODO: determine if x/y combo is optimal (if there's another point in the area, maybe if lines overlap...)
+    /**
+     * 
+     * @param x 
+     * @param y 
+     * @returns true if valid input, false if invalid input
+     */
+    filter(x: number, y: number): boolean{
+        //TODO: determine if x/y goes over what can be shown on monitor. then filter it out!
+        var temp = new shapes.Line(this.x, this.y, this.x + x, this.y + y);
+        console.log(lines);
+        for(var i = 0; i < lines.length; i++){
+            console.log(i);
+            if(lines[i].intersect(temp) == true){
+                return false;
+            }
+        }
+        return true;
     }
 }
 

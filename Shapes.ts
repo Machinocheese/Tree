@@ -88,9 +88,9 @@ export class Line{
         dot1 = N[0] * P1[1] - N[1] * P1[0]; //should also be divided by magnitude, but as i'm only looking for sign, irrelevant.
         dot2 = N[0] * P2[1] - N[1] * P2[0];   
         if(dot1 > 0 && dot2 > 0 || dot1 < 0 && dot2 < 0){
-            console.log(N + " x " + P1 + " = " + dot1 + " || " + N + " x " + P2 + " = " + dot2);                
+            /*console.log(N + " x " + P1 + " = " + dot1 + " || " + N + " x " + P2 + " = " + dot2);                
             console.log("THIS: " + this.x1 + " " + this.y1 + " " + this.x2 + " " + this.y2);
-            console.log("TARGET POINTS: " + line.x1 + " " + line.y1 + " " + line.x2 + " " + line.y2);
+            console.log("TARGET POINTS: " + line.x1 + " " + line.y1 + " " + line.x2 + " " + line.y2);*/
             return false;
         }
             
@@ -100,12 +100,16 @@ export class Line{
         dot1 = N[0] * P1[1] - N[1] * P1[0];
         dot2 = N[0] * P2[1] - N[1] * P2[0];
         if(dot1 > 0 && dot2 > 0 || dot1 < 0 && dot2 < 0){
-            console.log(N + " x " + P1 + " = " + dot1 + " || " + N + " x " + P2 + " = " + dot2 + "\n");
+            /*console.log(N + " x " + P1 + " = " + dot1 + " || " + N + " x " + P2 + " = " + dot2 + "\n");
             console.log("THIS: " + this.x1 + " " + this.y1 + " " + this.x2 + " " + this.y2);
-            console.log("TARGET POINTS: " + line.x1 + " " + line.y1 + " " + line.x2 + " " + line.y2);                
+            console.log("TARGET POINTS: " + line.x1 + " " + line.y1 + " " + line.x2 + " " + line.y2); */               
             return false;
         }
-            
+        //below is custom behavior: since I draw based off a node, I want the algorithm to ignore the source
+        //node when calculating intersection
+        if(this.x1 == line.x1 && this.y1 == line.y1)
+            return false;
+
         return true;
     }
 }
