@@ -35,3 +35,7 @@ Day 7:
 Managed to finally implement the method to check for line segment intersection. The concept wasn't hard, but for some reason,
 it just didn't click for me.
 Plans: Set up a hashMap function for map nodes, make sure randomly generated edges don't overlap w/ new methods.
+
+Day 8:
+Managed to figure out where a few intersection bugs were, but looking back, I'm not satisfied with my root implementation.
+The pure random generation isn't really cutting it for me - I may have to use controlled randomness.

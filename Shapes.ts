@@ -1,6 +1,6 @@
 var canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('cnvs');
 var ctx: CanvasRenderingContext2D = canvas.getContext("2d");
-var speed: number = 1/100; //1 / 10 is WAY too fast...yet I'm going to use it as testing speed.
+var speed: number = 1/10;
 
 export class Circle{
     originalX: number;
@@ -19,21 +19,17 @@ export class Circle{
         this.radius = radius;
     }
     draw(){
-        ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = this.color;
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         ctx.stroke();
-        ctx.restore();
     }
     move(x: number, y: number): number{
-        if(this.x >= this.originalX && this.x >= x && this.y >= y){
+        /* Checks to see if the circle still needs to be moved/redrawn */
+        if(this.x >= this.originalX && this.x >= x && this.y >= y || this.x < this.originalX && this.x <= x && this.y >= y){
             this.drawLine(); 
             return 1;
-        } else if(this.x < this.originalX && this.x <= x && this.y >= y){
-            this.drawLine(); 
-            return 1;
-        }//calculate offset as < 0 , not .x lol
+        }
         var offsetX = (x - this.originalX) * speed;
         var offsetY = (y - this.originalY) * speed;
         this.x = this.x + offsetX;
@@ -72,12 +68,27 @@ export class Line{
         this.y2 = y2;
     }
     draw(){
+        ctx.strokeStyle = "black";
         ctx.beginPath();
         ctx.moveTo(this.x1, this.y1);
         ctx.lineTo(this.x2, this.y2);
         ctx.stroke();
     }
+    /**
+     * 
+     * @param line 
+     * @description calculates if two line segments intersect each other
+     * @returns true if given line object intersects current line object
+     */
     intersect(line: Line): boolean{
+        //return true if both line segments are exactly the same
+        if(this.x1 == line.x1 && this.y1 == line.y1 && this.x2 == line.x2 && this.y2 == line.y2)
+            return true;
+        //when line segments are connected, intersect returns false
+        if(this.x1 == line.x1 && this.y1 == line.y1 || this.x1 == line.x2 && this.y1 == line.y2 || this.x2 == line.x1 && this.y2 == line.y1)
+            return false;
+
+
         var N, P1, P2, dot1, dot2;
         N = [this.x2 - this.x1, this.y2 - this.y1];
         P1 = [line.x1 - this.x1, line.y1 - this.y1];
@@ -105,10 +116,6 @@ export class Line{
             console.log("TARGET POINTS: " + line.x1 + " " + line.y1 + " " + line.x2 + " " + line.y2); */               
             return false;
         }
-        //below is custom behavior: since I draw based off a node, I want the algorithm to ignore the source
-        //node when calculating intersection
-        if(this.x1 == line.x1 && this.y1 == line.y1)
-            return false;
 
         return true;
     }

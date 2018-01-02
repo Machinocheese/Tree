@@ -22,11 +22,6 @@ export class Tree{
         this.species = species;
         this.alive = alive;
         this.roots.push(new Root(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 25, 50, 50, 2));
-        //this.roots.push(new Root(document.body.clientWidth / 2 + 10, document.body.clientHeight * 3 / 4 + 32, 0, 0, 0));
-        
-        var line1 = new shapes.Line(0,0,1,1);
-        var line2 = new shapes.Line(0,0,2,0);
-        console.log("INTERSECTION :" + line1.intersect(line2));
     }
     draw(){
         for(var i = 0; i < this.roots.length; i++){
@@ -94,8 +89,6 @@ class Root implements iShape{
             this.generateRoot();
             this.confirmed = false;
         }
-        //there are issues w/ parallelizing... do i sequence them or do i fix the break bug
-        //possible fix: make lines a non-global object so parallelizing isn't a problem
     }
     generateRoot(){
         //# roots generated = this.lifespan
@@ -104,13 +97,10 @@ class Root implements iShape{
             
             var newX = Math.floor(Math.random() * 100) - 50;
             var newY = Math.floor(Math.random() * 45) + 10;
-            this.filter(newX, newY);
-            /*if(this.filter(newX, newY) == false){
-                newX = Math.floor(Math.random() * 100) - 50;
-                newY = Math.floor(Math.random() * 45) + 10;
-            }*/
+            //let's do something a little more elegant for newX. Partition spaces for random generation.
+            console.log(!this.filter(newX, newY));
+            if(!this.filter(newX, newY)) return;
             this.roots.push(new Root(this.x + this.offsetX, this.y + this.offsetY, newX, newY, this.lifespan - 1));
-            //console.log(lines);
         }
     }
     /**
@@ -124,18 +114,13 @@ class Root implements iShape{
         var temp = new shapes.Line(this.x, this.y, this.x + x, this.y + y);
         console.log(lines);
         for(var i = 0; i < lines.length; i++){
-            console.log(i);
+            //console.log(i);
             if(lines[i].intersect(temp) == true){
                 return false;
             }
         }
         return true;
     }
-}
-
-function generateRoot(){
-    var x = 50 * Math.random();
-    var y = 50 * Math.random();
 }
 
 class Trunk implements iShape{
