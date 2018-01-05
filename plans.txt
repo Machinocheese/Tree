@@ -38,4 +38,7 @@ Plans: Set up a hashMap function for map nodes, make sure randomly generated edg
 
 Day 8:
 Managed to figure out where a few intersection bugs were, but looking back, I'm not satisfied with my root implementation.
-The pure random generation isn't really cutting it for me - I may have to use controlled randomness.
+The pure random generation isn't really cutting it for me - I may have to use controlled randomness. 
+
+Day 9:
+Not much has changed. I've been involved in looking at other things. Like projects.
