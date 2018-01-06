@@ -39,3 +39,7 @@ Plans: Set up a hashMap function for map nodes, make sure randomly generated edg
 Day 8:
 Managed to figure out where a few intersection bugs were, but looking back, I'm not satisfied with my root implementation.
 The pure random generation isn't really cutting it for me - I may have to use controlled randomness.
+
+Day 9:
+I've been thinking about keeping a list of viable circle points, and using RNG to determine which one of those points
+to choose. "Collision" would be determined by just eliminating a rectangle of points.
