@@ -1,5 +1,6 @@
 import shapes = require("Shapes");
-
+import gen = require("generator");
+var generator: gen.Generator;
 interface iShape{
     x: number;
     y: number;
