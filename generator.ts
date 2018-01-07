@@ -2,7 +2,7 @@ import shapes = require("Shapes");
 import { Point } from 'Shapes'
 export class Generator{
     valid: {[key: string]: boolean} = {};
-    constructor(x: number, y: number, x1: number, y1: number){
+    constructor(x: number, x1: number, y: number, y1: number){
         //x, y, x1, y1 determines the area of possibility
         if(x1 <= x || y1 <= y) {
             console.log("Invalid Generator constructor values");
@@ -22,16 +22,20 @@ export class Generator{
      * @param y1
      * @description chooses a random point among the rectangle boundaries given 
      */
-    generateRandomRectangle(left: number, right: number, bottom: number,  top: number): Point{
-        var possible: Array<Point> = new Array<Point>();
+    generateRandomRectangle(left: number, right: number, bottom: number,  top: number): Array<number>{
+        var possible: Array<Array<number>> = new Array<Array<number>>();
         for(var i = left; i <= right; i++){
             for(var j = bottom; j <= top; j++){
                 if(this.valid[String(i) + " " + String(j)])
-                    possible.push(new Point(i, j));
+                    possible.push(new Array<number>(i,j));
             }
         }
         var random = Math.floor(Math.random() * (possible.length - 1));
+        console.log("METHOD: " + possible[random]);
         return possible[random];
+    }
+    generateRandomCircle(x: number, y: number, radius: number): Array<number>{
+        return this.generateRandomRectangle(x - radius, x + radius, y - radius, y + radius);
     }
     /**
      * 
@@ -75,7 +79,7 @@ export class Generator{
      */
         
     createdCircle(x: number, y: number, radius: number){
-        createdRectangle(x - radius, x + radius, y - radius, y + radius);
+        this.createdRectangle(x - radius, x + radius, y - radius, y + radius);
     }
     reduce(numerator: number, denominator: number): Array<number>{
         var reduced: Array<number> = new Array<number>();

@@ -1,6 +1,7 @@
 import shapes = require("Shapes");
 import gen = require("generator");
 var generator: gen.Generator;
+
 interface iShape{
     x: number;
     y: number;
@@ -23,6 +24,7 @@ export class Tree{
         this.species = species;
         this.alive = alive;
         this.roots.push(new Root(document.body.clientWidth / 2, document.body.clientHeight * 3 / 4 + 25, 50, 50, 2));
+        generator = new gen.Generator(0, document.body.clientWidth, document.body.clientHeight * 3 / 4, document.body.clientHeight);
     }
     draw(){
         for(var i = 0; i < this.roots.length; i++){
@@ -57,8 +59,6 @@ class Branch implements iShape{
  * Step 2: Randomly choose an endpoint for each subroot - check if not intersecting any "Nodes" or "Edges"
  * Step 3: If so, rechoose point - (this only works 3 times - if they all fail, then stop choosing)
  */
-var lines: Array<shapes.Line> = new Array<shapes.Line>();
-var randomTries = 3;
 class Root implements iShape{
     x: number;
     y: number;
@@ -69,7 +69,8 @@ class Root implements iShape{
     roots: Array<Root> = new Array<Root>();
     confirmed: boolean;
     circle: any;
-    constructor(x: number, y: number, offsetX: number, offsetY: number, lifespan: number, color: string = 'rgb(205,133,63)'){
+    radius: number;
+    constructor(x: number, y: number, offsetX: number, offsetY: number, lifespan: number, color: string = 'rgb(205,133,63)', radius: number = 5){
         this.x = x;
         this.y = y;
         this.offsetX = offsetX;
@@ -77,8 +78,8 @@ class Root implements iShape{
         this.lifespan = lifespan;
         this.color = color;
         this.circle = new shapes.Circle(this.x,this.y,this.color);
-        lines.push(new shapes.Line(this.x,this.y,this.x + this.offsetX, this.y + this.offsetY));
         this.confirmed = true;
+        this.radius = radius;
     }
     draw(){
         for(var i = 0; i < this.roots.length; i++){
@@ -95,32 +96,13 @@ class Root implements iShape{
         //# roots generated = this.lifespan
         //it needs to generate roots according to # lifespan
         for(var i = 0; i < this.lifespan; i++){
-            
-            var newX = Math.floor(Math.random() * 100) - 50;
-            var newY = Math.floor(Math.random() * 45) + 10;
-            //let's do something a little more elegant for newX. Partition spaces for random generation.
-            console.log(!this.filter(newX, newY));
-            if(!this.filter(newX, newY)) return;
+            var point: Array<number> = new Array<number>();
+            point = generator.generateRandomCircle(this.x,this.y,this.radius);
+            var newX = point[0] - this.x;
+            var newY = point[1] - this.y;
+            console.log("NEW X: " + newX + " NEW Y: " + newY);
             this.roots.push(new Root(this.x + this.offsetX, this.y + this.offsetY, newX, newY, this.lifespan - 1));
         }
-    }
-    /**
-     * 
-     * @param x 
-     * @param y 
-     * @returns true if valid input, false if invalid input
-     */
-    filter(x: number, y: number): boolean{
-        //TODO: determine if x/y goes over what can be shown on monitor. then filter it out!
-        var temp = new shapes.Line(this.x, this.y, this.x + x, this.y + y);
-        console.log(lines);
-        for(var i = 0; i < lines.length; i++){
-            //console.log(i);
-            if(lines[i].intersect(temp) == true){
-                return false;
-            }
-        }
-        return true;
     }
 }
 
